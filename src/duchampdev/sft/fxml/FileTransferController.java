@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -28,7 +29,9 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
     private Button target;
 
     @FXML
-    private CheckBox excludeSourceRootDir;
+    private RadioButton includeSourceRootDir;
+    @FXML
+    private RadioButton excludeSourceRootDir;
 
     @FXML
     private ProgressBar progress;
@@ -55,10 +58,21 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
         buttonAbort.disableProperty().setValue(true);
         progress.disableProperty().set(true);
         isCopying.addListener((observable, oldValue, newValue) -> {
-            buttonAbort.disableProperty().set(!newValue);
+            includeSourceRootDir.disableProperty().set(newValue);
+            excludeSourceRootDir.disableProperty().set(newValue);
             buttonCopy.disableProperty().set(newValue);
+
+            buttonAbort.disableProperty().set(!newValue);
             progress.disableProperty().set(!newValue);
         });
+        initializeTooltips();
+    }
+
+    public void initializeTooltips() {
+        source.tooltipProperty().set(new Tooltip());
+        target.tooltipProperty().set(new Tooltip());
+        source.tooltipProperty().get().textProperty().bind(source.textProperty());
+        target.tooltipProperty().get().textProperty().bind(target.textProperty());
     }
 
     public void setSource(ActionEvent actionEvent) {
@@ -68,7 +82,7 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
         if (sourceDir != null) {
             source.setText(sourceDir.getAbsolutePath());
         } else {
-            source.setText("");
+            source.setText("click here to choose a source directory");
         }
     }
 
@@ -79,7 +93,7 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
         if (targetDir != null) {
             target.setText(targetDir.getAbsolutePath());
         } else {
-            target.setText("");
+            target.setText("clicke here to choose a target directory");
         }
     }
 
@@ -108,7 +122,7 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
         filesToCopy = FileUtils.getInstance().countFiles(sourceDir);
         filesCopied = filesExisted = 0;
         FileUtils.getInstance().setAlive(true); // set marker for workerThread so that it does not get killed immediately after start
-        workerThread = new Thread(() -> FileUtils.getInstance().copy(sourceDir, targetDir, 0, !excludeSourceRootDir.isSelected()));
+        workerThread = new Thread(() -> FileUtils.getInstance().copy(sourceDir, targetDir, 0, includeSourceRootDir.isSelected()));
         isCopying.set(true);
         workerThread.start();
     }

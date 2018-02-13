@@ -6,7 +6,7 @@
 
     <groupId>duchampdev</groupId>
     <artifactId>SortedFileTransfer</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
         <properties>
             <mvncompiler.version>3.7.0</mvncompiler.version>

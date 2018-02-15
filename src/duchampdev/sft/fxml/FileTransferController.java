@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -52,9 +51,12 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
     private long filesCopied;
     private long filesExisted;
 
+    private ResourceBundle uiStrings;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        uiStrings = resources;
         buttonAbort.disableProperty().setValue(true);
         progress.disableProperty().set(true);
         isCopying.addListener((observable, oldValue, newValue) -> {
@@ -77,41 +79,41 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
 
     public void setSource(ActionEvent actionEvent) {
         DirectoryChooser dc = new DirectoryChooser();
-        dc.setTitle("source directory");
+        dc.setTitle(uiStrings.getString("chooseSource"));
         sourceDir = dc.showDialog(rootPane.getScene().getWindow());
         if (sourceDir != null) {
             source.setText(sourceDir.getAbsolutePath());
         } else {
-            source.setText("click here to choose a source directory");
+            source.setText(uiStrings.getString("chooseSource"));
         }
     }
 
     public void setTarget(ActionEvent actionEvent) {
         DirectoryChooser dc = new DirectoryChooser();
-        dc.setTitle("target directory");
+        dc.setTitle(uiStrings.getString("chooseTarget"));
         targetDir = dc.showDialog(rootPane.getScene().getWindow());
         if (targetDir != null) {
             target.setText(targetDir.getAbsolutePath());
         } else {
-            target.setText("clicke here to choose a target directory");
+            target.setText(uiStrings.getString("chooseTarget"));
         }
     }
 
     public void copyWrapper(ActionEvent actionEvent) {
         if (sourceDir == null) {
-            new Alert(Alert.AlertType.ERROR, "Please choose a source directory!", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, uiStrings.getString("sourceDirMissingAlert"), ButtonType.OK).showAndWait();
             return;
         }
         if (targetDir == null) {
-            new Alert(Alert.AlertType.ERROR, "Please choose a target directory!", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, uiStrings.getString("targetDirMissingAlert"), ButtonType.OK).showAndWait();
             return;
         }
         if (!FileUtils.getInstance().checkTargetLocation(sourceDir, targetDir)) {
-            new Alert(Alert.AlertType.ERROR, "Source directory contains target directory!", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, uiStrings.getString("sourceContainingTargetAlert"), ButtonType.OK).showAndWait();
             return;
         }
         if (!targetDir.canWrite()) {
-            new Alert(Alert.AlertType.ERROR, "Writing permission on target directory is missing!", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, uiStrings.getString("missingWritePermissionAlert"), ButtonType.OK).showAndWait();
             return;
         }
         copy();
@@ -151,9 +153,7 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
     public void hasFinished() {
         isCopying.set(false);
         Platform.runLater(() ->
-                new Alert(Alert.AlertType.INFORMATION, "Process completed:\n" + filesCopied + " files copied, " + filesExisted + " files already existed.").showAndWait());
+                new Alert(Alert.AlertType.INFORMATION, uiStrings.getString("processCompleted") + ":\n" + filesCopied + " " + uiStrings.getString("filesCopied") + ", " + filesExisted + " " + uiStrings.getString("filesExisted") + ".").showAndWait());
         Platform.runLater(() -> FileUtils.getInstance().detach(this));
     }
-
-
 }

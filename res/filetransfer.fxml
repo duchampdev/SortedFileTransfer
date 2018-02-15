@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootPane" alignment="center" prefHeight="250" prefWidth="450" spacing="10"
+<VBox fx:id="rootPane" alignment="center" prefHeight="250" prefWidth="460" spacing="10"
       xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="duchampdev.sft.fxml.FileTransferController">
     <fx:define>
@@ -29,17 +29,17 @@
         </VBox.margin>
     </Label>
     <GridPane hgap="10.0" maxHeight="Infinity" maxWidth="Infinity" vgap="10.0" VBox.vgrow="ALWAYS">
-        <Label minWidth="120" text="source directory" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label minWidth="120" text="target directory" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label minWidth="120" text="%sourceDir" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label minWidth="120" text="%targetDir" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
         <Button fx:id="source" maxWidth="Infinity" onAction="#setSource" prefHeight="50"
-                text="click here to choose a source directory" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                text="%chooseSource" GridPane.columnIndex="1" GridPane.rowIndex="0">
             <font>
                 <Font name="System Italic" size="13.0"/>
             </font>
         </Button>
         <Button fx:id="target" maxWidth="Infinity" onAction="#setTarget" prefHeight="50"
-                text="click here to choose a target directory" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                text="%chooseTarget" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <font>
                 <Font name="System Italic" size="13.0"/>
             </font>
@@ -57,12 +57,12 @@
         </VBox.margin>
     </GridPane>
     <RadioButton fx:id="includeSourceRootDir" maxWidth="Infinity" selected="true"
-                 text="copy source directory, files and all subdirectories" toggleGroup="$behaviour_srd">
+                 text="%includeSourceRootDirToggle" toggleGroup="$behaviour_srd">
         <VBox.margin>
             <Insets left="10.0" right="10.0"/>
         </VBox.margin>
     </RadioButton>
-    <RadioButton fx:id="excludeSourceRootDir" maxWidth="Infinity" text="copy only files and all subdirectories"
+    <RadioButton fx:id="excludeSourceRootDir" maxWidth="Infinity" text="%excludeSourceRootDirToggle"
                  toggleGroup="$behaviour_srd">
         <VBox.margin>
             <Insets left="10.0" right="10.0"/>
@@ -74,8 +74,8 @@
         </VBox.margin>
     </ProgressBar>
     <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-        <Button fx:id="buttonAbort" mnemonicParsing="false" onAction="#abort" text="Abort"/>
-        <Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyWrapper" text="Copy (alphabetically sorted)"/>
+        <Button fx:id="buttonAbort" mnemonicParsing="false" onAction="#abort" text="%abortButton"/>
+        <Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyWrapper" text="%copyButton"/>
     </ToolBar>
 
 </VBox>

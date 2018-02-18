@@ -1,0 +1,18 @@
+apply plugin: 'java'
+
+group = 'duchampdev'
+version = '1.2'
+
+description = """"""
+
+sourceCompatibility = 8
+targetCompatibility = 8
+
+
+
+jar {
+    from "LICENSE"
+     manifest {
+          attributes 'Main-Class': 'duchampdev.sft.Main'
+     }
+}

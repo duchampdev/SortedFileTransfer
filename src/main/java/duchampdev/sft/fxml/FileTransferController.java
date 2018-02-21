@@ -2,17 +2,17 @@
  * SortedFileTransfer
  * Copyright (C) 2018-today duchampdev (Benedikt I.)
  * contact: duchampdev@outlook.com
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -51,7 +51,9 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
     private RadioButton excludeSourceRootDir;
 
     @FXML
-    private ProgressBar progress;
+    private ProgressBar progressBar;
+    @FXML
+    private Label progressPercentage;
 
     @FXML
     private Button buttonCopy;
@@ -76,14 +78,14 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
     public void initialize(URL location, ResourceBundle resources) {
         uiStrings = resources;
         buttonAbort.disableProperty().setValue(true);
-        progress.disableProperty().set(true);
+        progressBar.disableProperty().set(true);
         isCopying.addListener((observable, oldValue, newValue) -> {
             includeSourceRootDir.disableProperty().set(newValue);
             excludeSourceRootDir.disableProperty().set(newValue);
             buttonCopy.disableProperty().set(newValue);
 
             buttonAbort.disableProperty().set(!newValue);
-            progress.disableProperty().set(!newValue);
+            progressBar.disableProperty().set(!newValue);
         });
         initializeTooltips();
     }
@@ -163,15 +165,21 @@ public class FileTransferController implements Initializable, FileUtils.FileCopy
             } else {
                 filesCopied++;
             }
-            progress.setProgress((filesCopied + filesExisted) / (double) filesToCopy);
+            double progress = (filesCopied + filesExisted) / (double) filesToCopy;
+            progressBar.setProgress(progress);
+            progressPercentage.setText((int) (progress * 100) + "%");
         });
     }
 
     @Override
-    public void hasFinished() {
+    public void hasFinished(boolean aborted) {
         isCopying.set(false);
-        Platform.runLater(() ->
-                new Alert(Alert.AlertType.INFORMATION, uiStrings.getString("processCompleted") + ":\n" + filesCopied + " " + uiStrings.getString("filesCopied") + ", " + filesExisted + " " + uiStrings.getString("filesExisted") + ".").showAndWait());
+        Platform.runLater(() -> {
+            String completedAborted = aborted ? uiStrings.getString("processAborted") : uiStrings.getString("processCompleted");
+            new Alert(Alert.AlertType.INFORMATION, completedAborted + ":\n" + filesCopied + " " + uiStrings.getString("filesCopied") + ", " + filesExisted + " " + uiStrings.getString("filesExisted") + ".").showAndWait();
+            progressBar.setProgress(0);
+            progressPercentage.setText("0%");
+        });
         Platform.runLater(() -> FileUtils.getInstance().detach(this));
     }
 }

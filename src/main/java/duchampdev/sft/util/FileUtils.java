@@ -2,17 +2,17 @@
  * SortedFileTransfer
  * Copyright (C) 2018-today duchampdev (Benedikt I.)
  * contact: duchampdev@outlook.com
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -57,7 +57,7 @@ public class FileUtils {
         }
         Arrays.stream(sourceDir.listFiles()).sorted(Comparator.comparing(File::getName)).forEachOrdered(f ->
         {
-            if (!alive) return; // do not start any further copy process
+            if (!alive) return; // do not start any further copy process; works like break in a common for-each-loop
             if (f.isFile()) {
                 try {
                     File targetFile = new File(newTarget.getAbsolutePath() + File.separator + f.getName());
@@ -74,8 +74,8 @@ public class FileUtils {
             }
         });
         if (recursionDepth == 0) {
+            notifyFinished(!alive);
             setAlive(false);
-            notifyFinished();
         }
     }
 
@@ -117,14 +117,14 @@ public class FileUtils {
         observers.forEach(o -> o.fileCopied(existed));
     }
 
-    private void notifyFinished() {
-        observers.forEach(FileCopyObserver::hasFinished);
+    private void notifyFinished(boolean aborted) {
+        observers.forEach(o -> o.hasFinished(aborted));
     }
 
     public interface FileCopyObserver {
         public abstract void fileCopied(boolean existed);
 
-        public abstract void hasFinished();
+        public abstract void hasFinished(boolean aborted);
     }
 
     public void attach(FileCopyObserver o) {

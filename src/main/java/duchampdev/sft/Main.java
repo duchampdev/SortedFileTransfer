@@ -36,7 +36,7 @@ public class Main extends Application {
         ResourceBundle uistrings = ResourceBundle.getBundle("UIStrings");
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("filetransfer.fxml"), uistrings);
         primaryStage.setTitle("SortedFileTransfer");
-        primaryStage.setScene(new Scene(root, 460, 250));
+        primaryStage.setScene(new Scene(root, 500, 280));
         primaryStage.show();
     }
 

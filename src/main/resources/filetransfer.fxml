@@ -33,13 +33,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootPane" alignment="center" prefHeight="280" prefWidth="500" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<VBox fx:id="rootPane" alignment="center" prefHeight="280" prefWidth="500" spacing="10"
+      style="-fx-background-color: ORANGE;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="duchampdev.sft.fxml.FileTransferController">
     <fx:define>
         <ToggleGroup fx:id="behaviour_srd"/>
     </fx:define>
 
-    <Label text="Sorted File Transfer">
+    <Label text="Sorted File Transfer" style="-fx-text-fill: BLUE">
         <font>
             <Font name="System Italic" size="20.0"/>
         </font>
@@ -48,16 +49,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </VBox.margin>
     </Label>
     <GridPane hgap="10.0" maxHeight="Infinity" maxWidth="Infinity" vgap="10.0" VBox.vgrow="ALWAYS">
-        <Label minWidth="120" text="%sourceDir" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label minWidth="120" text="%targetDir" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label minWidth="120" text="%sourceDir" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: BLUE"/>
+        <Label minWidth="120" text="%targetDir" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: BLUE"/>
 
-        <Button fx:id="source" maxWidth="Infinity" onAction="#setSource" prefHeight="75" text="%chooseSource" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Button fx:id="source" maxWidth="Infinity" onAction="#setSource" prefHeight="75" text="%chooseSource"
+                wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-text-fill: BLUE">
             <font>
                 <Font name="System Italic" size="13.0"/>
             </font>
         </Button>
         <Button fx:id="target" maxWidth="Infinity" onAction="#setTarget" prefHeight="75" text="%chooseTarget"
-                wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-text-fill: BLUE">
             <font>
                 <Font name="System Italic" size="13.0"/>
             </font>
@@ -74,29 +76,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <Insets left="10.0" right="10.0"/>
         </VBox.margin>
     </GridPane>
-    <RadioButton fx:id="includeSourceRootDir" maxWidth="Infinity" selected="true" text="%includeSourceRootDirToggle" toggleGroup="$behaviour_srd">
+    <RadioButton fx:id="includeSourceRootDir" maxWidth="Infinity" selected="true" text="%includeSourceRootDirToggle"
+                 toggleGroup="$behaviour_srd" style="-fx-text-fill: BLUE">
         <VBox.margin>
             <Insets left="10.0" right="10.0"/>
         </VBox.margin>
     </RadioButton>
     <RadioButton fx:id="excludeSourceRootDir" maxWidth="Infinity" text="%excludeSourceRootDirToggle"
-                 toggleGroup="$behaviour_srd">
+                 toggleGroup="$behaviour_srd" style="-fx-text-fill: BLUE">
         <VBox.margin>
             <Insets left="10.0" right="10.0"/>
         </VBox.margin>
     </RadioButton>
     <HBox maxWidth="Infinity" spacing="10" VBox.vgrow="ALWAYS">
         <ProgressBar fx:id="progressBar" maxWidth="Infinity" prefWidth="200.0" progress="0.0" HBox.hgrow="ALWAYS"
-                     VBox.vgrow="ALWAYS">
+                     VBox.vgrow="ALWAYS" style="-fx-fill: BLUE">
             <VBox.margin>
                 <Insets left="10.0" right="10.0"/>
             </VBox.margin>
         </ProgressBar>
-        <Label fx:id="progressPercentage" minWidth="30" text="0%" textAlignment="RIGHT"/>
+        <Label fx:id="progressPercentage" minWidth="30" text="0%" textAlignment="RIGHT" style="-fx-text-fill: BLUE"/>
     </HBox>
-    <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" >
-        <Button fx:id="buttonAbort" mnemonicParsing="false" onAction="#abort" text="%abortButton"/>
-        <Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyWrapper" text="%copyButton"/>
+    <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #ee9900;">
+        <Button fx:id="buttonAbort" mnemonicParsing="false" onAction="#abort" text="%abortButton"
+                style="-fx-text-fill: BLUE"/>
+        <Button fx:id="buttonCopy" mnemonicParsing="false" onAction="#copyWrapper" text="%copyButton"
+                style="-fx-text-fill: BLUE"/>
     </ToolBar>
     <padding>
         <Insets left="5.0" right="5.0"/>
